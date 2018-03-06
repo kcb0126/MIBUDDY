@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">MIBUDDY</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="log_in">Log In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logo">Logo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_talk_now">Talk Now</string>
+    <string name="title_community">Community</string>
+    <string name="title_icons">Icons</string>
+    <string name="title_me">Me</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="question_keyword_hint">Search key words of questions</string>
+    <string name="community_page_title">Bund visit anyone?</string>
+    <string name="send">Send</string>
+    <string name="travel">Travel</string>
+    <string name="countries">Countries</string>
+    <string name="night_life">Night Life</string>
+    <string name="dating">Dating</string>
+    <string name="studies">Studies</string>
+    <string name="business">Business</string>
+    <string name="dining">Dining</string>
+    <string name="housing">Housing</string>
+</resources>

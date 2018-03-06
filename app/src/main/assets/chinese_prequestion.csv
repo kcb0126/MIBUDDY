@@ -1,0 +1,83 @@
+1,Can I have the menu please?,Restaurants,1
+2,Do you have an English menu? ,Restaurants,2
+3,Can I order? ,Restaurants,3
+4,I do not eat meat.,Restaurants,4
+5,I do not like spicy food.,Restaurants,5
+6,Can I have a fork and a knife? ,Restaurants,6
+7,Can I have a cup of ice water? ,Restaurants,7
+8,I want the bill. ,Restaurants,8
+9,How much does it cost? ,Restaurants,9
+10,Do you do take-away? ,Restaurants,10
+11,Where is the toilet? ,Restaurants,11
+12,Do you have a free table? ,Restaurants,12
+13,I would like to order this. ,Restaurants,13
+14,Two beer please.,Restaurants,14
+15,Turn down the music.,Restaurants,15
+16,Do you have napkins?,Restaurants,16
+17,Do you also sell food? ,Restaurants,17
+18,Do you have an ashtray? ,Restaurants,18
+19,Can I have a lighter?  ,Restaurants,19
+20,Until what time are you open? ,Restaurants,20
+21,Cheers!,Restaurants,21
+22,I want to go to X.,Transportation,22
+23,This is the address.,Transportation,23
+24,Is it far from here?,Transportation,24
+25,How long will it take? ,Transportation,25
+26,Are we already there? ,Transportation,26
+27,Go straight.,Transportation,27
+28,Go left.,Transportation,28
+29,Go right.,Transportation,29
+30,I have arrived.,Transportation,30
+31,Please stop! ,Transportation,31
+32,How much does it cost? ,Transportation,32
+33,I want to go to this place.,Transportation,33
+34,Can you speak English?,Transportation,34
+35,Can you show me where I am? (Map) ,Transportation,35
+36,Left or right? ,Transportation,36
+37,How do I get to this place?,Transportation,37
+38,How do I get to the hospital?,Transportation,38
+39,How do I get to the police station?,Transportation,39
+40,How do I get to the supermarket?,Transportation,40
+41,How do I get to the train station?,Transportation,41
+42,How do I get to the bus station?,Transportation,42
+43,How do I get to the metro station?,Transportation,43
+44,How do I get to the airport?,Transportation,44
+45,I want X tickets to go to this place.,Transportation,45
+46,What time does it depart?,Transportation,46
+47,What time does it arrive?,Transportation,47
+48,Which line should I take to get to this place?,Transportation,48
+49,Which exit should I take to get to this place?,Transportation,49
+50,Where is platform X?,Transportation,50
+51,Where is the toilet? ,Transportation,51
+52,How much does it cost? ,Supermarket,52
+53,Where is the shopping cart?,Supermarket,53
+54,Where is the paying counter? ,Supermarket,54
+55,Where can I find the fruit?,Supermarket,55
+56,Where can I find the vegetables?,Supermarket,56
+57,Where can I find the meat?,Supermarket,57
+58,Where can I find the water?,Supermarket,58
+59,Where can I find the bread?,Supermarket,59
+60,I want a bag.,Supermarket,60
+61,Pay by card.,Supermarket,61
+62,Pay by Wechat.,Supermarket,62
+63,Pay by Alipay.,Supermarket,63
+64,I want the receipt.,Supermarket,64
+65,I want to apply for residence permit.,Police,65
+66,I want to register at this address.,Police,66
+67,I lost my wallet.,Police,67
+68,I lost my phone.,Police,68
+69,I lost my passport.,Police,69
+70,I got robbed. ,Police,70
+71,I want a multiple entry visa.,Police,71
+72,I want a single entry visa.,Police,72
+73,How much does it cost? ,Police,73
+74,How long will it take? ,Police,74
+75,My name is X.,Business,75
+76,I am from X.,Business,76
+77,Nice to meet you.,Business,77
+78,Thank you.,Business,78
+79,See you soon.,Business,79
+80,Does someone here speak english?,Restaurants,80
+81,Do you speak english?,Restaurants,81
+82,Don't make my food spicy. ,Restaurants,82
+83,Can you bring the check please?,Restaurants,83
