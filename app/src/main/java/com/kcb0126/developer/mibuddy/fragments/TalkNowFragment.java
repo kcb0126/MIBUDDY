@@ -205,6 +205,7 @@ public class TalkNowFragment extends Fragment implements OnClickListener, OnItem
                             }
                         } while (questionxAnswer.moveCursor());
                     } else {
+                        answerIDs.add("No answers");
                         answers.add("no esta leyendo bien de questionsXanswers");
                     }
                 } else {

@@ -27,4 +27,7 @@
     <string name="business">Business</string>
     <string name="dining">Dining</string>
     <string name="housing">Housing</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="signup_notice">By clicking Join now, you agree to MIBUDDY\'s User Agreement, Privacy Policy and Cookie Policy.</string>
+    <string name="reenter_password">Re-enter Password</string>
 </resources>

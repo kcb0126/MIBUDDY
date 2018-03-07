@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.kcb0126.developer.mibuddy.LoginActivity">
-
+    tools:context="com.kcb0126.developer.mibuddy.SignupActivity">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -48,25 +47,25 @@
             android:inputType="textPassword"
             android:singleLine="true"
             android:hint="@string/password"/>
+        <EditText
+            android:id="@+id/edtReenterPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:singleLine="true"
+            android:hint="@string/reenter_password"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:text="@string/forgot_your_password"/>
+            android:gravity="center"
+            android:text="@string/signup_notice"/>
 
         <Button
-            android:id="@+id/btnLogin"
+            android:id="@+id/btnJoinnow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
+            android:layout_marginVertical="40dp"
             android:text="@string/log_in"
-            android:background="@android:color/holo_orange_light"/>
-        <Button
-            android:id="@+id/btnSignup"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="20dp"
-            android:text="@string/sign_up"
             android:background="@android:color/holo_orange_light"/>
     </LinearLayout>
 

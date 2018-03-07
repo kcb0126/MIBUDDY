@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.kcb0126.developer.mibuddy.fragments.CommunityFragment;
 import com.kcb0126.developer.mibuddy.fragments.HomeFragment;
@@ -46,10 +47,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     transaction.commit();
                     return true;
                 case R.id.navigation_icons:
-//                    mTextMessage.setText(R.string.title_icons);
+                    Toast.makeText(MainActivity.this, R.string.title_icons, Toast.LENGTH_LONG).show();
                     return true;
                 case R.id.navigation_me:
-//                    mTextMessage.setText(R.string.title_me);
+                    Toast.makeText(MainActivity.this, R.string.title_me, Toast.LENGTH_LONG).show();
                     return true;
             }
             return false;
