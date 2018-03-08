@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.kcb0126.developer.mibuddy.fragments.CommunityFragment;
 import com.kcb0126.developer.mibuddy.fragments.HomeFragment;
+import com.kcb0126.developer.mibuddy.fragments.IconFragment;
 import com.kcb0126.developer.mibuddy.fragments.TalkNowFragment;
 import com.kcb0126.developer.mibuddy.utils.BottomNavigationViewHelper;
 import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
@@ -47,7 +48,10 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     transaction.commit();
                     return true;
                 case R.id.navigation_icons:
-                    Toast.makeText(MainActivity.this, R.string.title_icons, Toast.LENGTH_LONG).show();
+                    IconFragment iconFragment = new IconFragment();
+                    transaction.replace(R.id.main_fragment, iconFragment);
+                    transaction.addToBackStack(null);
+                    transaction.commit();
                     return true;
                 case R.id.navigation_me:
                     Toast.makeText(MainActivity.this, R.string.title_me, Toast.LENGTH_LONG).show();

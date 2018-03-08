@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.kcb0126.developer.mibuddy.fragments.CommunityGroupFragment">
+    tools:context="com.kcb0126.developer.mibuddy.fragments.CommunityChatFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_centerInParent="true"
                 android:textSize="24sp"
                 android:textColor="@android:color/black"
-                android:text="Travel Community"/>
+                android:text="@string/title_of_chat_scene"/>
             <RelativeLayout
                 android:id="@+id/btnBack"
                 android:layout_width="50dp"
@@ -41,7 +41,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
             android:orientation="horizontal">
             <Button
                 android:layout_width="wrap_content"
