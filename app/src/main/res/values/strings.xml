@@ -44,4 +44,7 @@
     <string name="field_about_me">About me</string>
     <string name="hint_gender">Gender(Female or Male)</string>
     <string name="join_now">Join now</string>
+    <string name="group_table_groups">Groups</string>
+    <string name="group_table_leaders">Leaders</string>
+    <string name="group_table_members">Members</string>
 </resources>

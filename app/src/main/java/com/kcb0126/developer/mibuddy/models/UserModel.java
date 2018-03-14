@@ -123,31 +123,31 @@ public class UserModel {
     public void parseFromJSON(JSONObject data) {
         try {
             if(data.has("username")) {
-                setUsername((String)data.get("username"));
+                setUsername(data.getString("username"));
             }
             if(data.has("gender")) {
-                setGender((String)data.get("gender"));
+                setGender(data.getString("gender"));
             }
             if(data.has("age")) {
-                setAge((int)data.get("age"));
+                setAge(data.getInt("age"));
             }
             if(data.has("nationality")) {
-                setNationality((String)data.get("nationality"));
+                setNationality(data.getString("nationality"));
             }
             if(data.has("language")) {
-                setNationality((String)data.get("nationality"));
+                setNationality(data.getString("nationality"));
             }
             if(data.has("occupation")) {
-                setOccupation((String)data.get("occupation"));
+                setOccupation(data.getString("occupation"));
             }
             if(data.has("areas")) {
-                setAreas((String)data.get("areas"));
+                setAreas(data.getString("areas"));
             }
             if(data.has("herefor")) {
-                setHerefor((String)data.get("herefor"));
+                setHerefor(data.getString("herefor"));
             }
             if(data.has("aboutme")) {
-                setAboutme((String)data.get("aboutme"));
+                setAboutme(data.getString("aboutme"));
             }
         } catch (JSONException e) {
             e.printStackTrace();

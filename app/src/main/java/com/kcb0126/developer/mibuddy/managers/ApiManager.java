@@ -3,27 +3,27 @@ package com.kcb0126.developer.mibuddy.managers;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.kcb0126.developer.mibuddy.models.GroupModel;
 import com.kcb0126.developer.mibuddy.models.UserModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by developer on 3/13/2018.
@@ -38,8 +38,7 @@ public class ApiManager {
     private String profileUrl = baseUrl + "profile/";
 
     private String createUrl = baseUrl + "create/";
-
-    private String token;
+    private String groupListUrl = baseUrl + "groups/";
 
     private static ApiManager mInstance = null;
 
@@ -89,10 +88,11 @@ public class ApiManager {
                         @Override
                         public void run() {
                             try {
+                                Object json = new JSONTokener(sb.toString()).nextValue();
                                 if(code == HttpURLConnection.HTTP_OK) {
-                                    callBack.success(new JSONObject(sb.toString()));
+                                    callBack.success(json);
                                 } else {
-                                    callBack.fail(new JSONObject(sb.toString()));
+                                    callBack.fail((JSONObject)json);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -133,9 +133,9 @@ public class ApiManager {
         params.put("password", password);
         callApi(loginUrl, params, new CallBack() {
             @Override
-            public void success(JSONObject data) {
+            public void success(Object data) {
                 try {
-                    String token = (String)data.get("token");
+                    String token = (String)((JSONObject)data).get("token");
                     PreferenceManager.instance().putToken(context, token);
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -160,7 +160,7 @@ public class ApiManager {
         params.put("nationality", nationality);
         callApi(signupUrl, params, new CallBack() {
             @Override
-            public void success(JSONObject data) {
+            public void success(Object data) {
                 success.run();
             }
 
@@ -177,8 +177,8 @@ public class ApiManager {
         params.put("token", token);
         callApi(profileUrl, params, new CallBack() {
             @Override
-            public void success(JSONObject data) {
-                UserModel.instance().parseFromJSON(data);
+            public void success(Object data) {
+                UserModel.instance().parseFromJSON((JSONObject) data);
                 success.run();
             }
 
@@ -191,13 +191,13 @@ public class ApiManager {
 
     public void createGroup(final Context context, String name, String community, final Runnable success) {
         HashMap<String, Object> params = new HashMap<>();
-        String toke = PreferenceManager.instance().getToken(context);
+        String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
         params.put("name", name);
         params.put("community", community);
         callApi(createUrl, params, new CallBack() {
             @Override
-            public void success(JSONObject data) {
+            public void success(Object data) {
                 success.run();
             }
 
@@ -209,8 +209,43 @@ public class ApiManager {
 
     }
 
+    public void groupList(Context context, String community, String keyword, final GroupListCallBack callBack) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("community", community);
+        params.put("keyword", keyword);
+        callApi(groupListUrl, params, new CallBack() {
+            @Override
+            public void success(Object data) {
+                JSONArray groupsArray = (JSONArray)data;
+                ArrayList<GroupModel> groups = new ArrayList<>();
+                for(int i = 0; i < groupsArray.length(); i++) {
+                    try {
+                        GroupModel group = GroupModel.parseFromJSON(groupsArray.getJSONObject(i));
+                        if(group != null) {
+                            groups.add(group);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callBack.success(groups);
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+
+            }
+        });
+    }
+
     public interface CallBack {
-        void success(JSONObject data);
+        void success(Object data);
         void fail(JSONObject data);
+    }
+
+    public interface GroupListCallBack {
+        void success(ArrayList<GroupModel> groups);
     }
 }
