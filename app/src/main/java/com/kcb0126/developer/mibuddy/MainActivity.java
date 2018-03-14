@@ -14,7 +14,9 @@ import android.widget.Toast;
 import com.kcb0126.developer.mibuddy.fragments.CommunityFragment;
 import com.kcb0126.developer.mibuddy.fragments.HomeFragment;
 import com.kcb0126.developer.mibuddy.fragments.IconFragment;
+import com.kcb0126.developer.mibuddy.fragments.MeFragment;
 import com.kcb0126.developer.mibuddy.fragments.TalkNowFragment;
+import com.kcb0126.developer.mibuddy.managers.ApiManager;
 import com.kcb0126.developer.mibuddy.utils.BottomNavigationViewHelper;
 import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
 
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            final FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     HomeFragment homeFragment = new HomeFragment();
@@ -54,7 +56,15 @@ public class MainActivity extends AppCompatActivity implements OnFragmentInterac
                     transaction.commit();
                     return true;
                 case R.id.navigation_me:
-                    Toast.makeText(MainActivity.this, R.string.title_me, Toast.LENGTH_LONG).show();
+                    ApiManager.instance().profile(MainActivity.this, new Runnable() {
+                        @Override
+                        public void run() {
+                            MeFragment meFragment = new MeFragment();
+                            transaction.replace(R.id.main_fragment, meFragment);
+                            transaction.addToBackStack(null);
+                            transaction.commit();
+                        }
+                    });
                     return true;
             }
             return false;

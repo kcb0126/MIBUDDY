@@ -6,6 +6,8 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.kcb0126.developer.mibuddy.models.UserModel;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,9 +31,13 @@ import java.util.Set;
 
 public class ApiManager {
     private String baseUrl = "http://192.168.3.25:8000/";
+
     private String loginUrl = baseUrl + "login/";
     private String signupUrl = baseUrl + "signup/";
+
     private String profileUrl = baseUrl + "profile/";
+
+    private String createUrl = baseUrl + "create/";
 
     private String token;
 
@@ -163,6 +169,44 @@ public class ApiManager {
                 Toast.makeText(context, "Signup failed." + getErrorDetail(data), Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    public void profile(final Context context, final Runnable success) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        callApi(profileUrl, params, new CallBack() {
+            @Override
+            public void success(JSONObject data) {
+                UserModel.instance().parseFromJSON(data);
+                success.run();
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Cannot show your profile." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void createGroup(final Context context, String name, String community, final Runnable success) {
+        HashMap<String, Object> params = new HashMap<>();
+        String toke = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("name", name);
+        params.put("community", community);
+        callApi(createUrl, params, new CallBack() {
+            @Override
+            public void success(JSONObject data) {
+                success.run();
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Cannot create a new group." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+
     }
 
     public interface CallBack {

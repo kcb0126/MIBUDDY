@@ -1,5 +1,8 @@
 package com.kcb0126.developer.mibuddy.models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by developer on 3/13/2018.
  */
@@ -113,7 +116,41 @@ public class UserModel {
         return mAboutme;
     }
 
-    public void setmAboutme(String aboutme) {
+    public void setAboutme(String aboutme) {
         this.mAboutme = aboutme;
+    }
+
+    public void parseFromJSON(JSONObject data) {
+        try {
+            if(data.has("username")) {
+                setUsername((String)data.get("username"));
+            }
+            if(data.has("gender")) {
+                setGender((String)data.get("gender"));
+            }
+            if(data.has("age")) {
+                setAge((int)data.get("age"));
+            }
+            if(data.has("nationality")) {
+                setNationality((String)data.get("nationality"));
+            }
+            if(data.has("language")) {
+                setNationality((String)data.get("nationality"));
+            }
+            if(data.has("occupation")) {
+                setOccupation((String)data.get("occupation"));
+            }
+            if(data.has("areas")) {
+                setAreas((String)data.get("areas"));
+            }
+            if(data.has("herefor")) {
+                setHerefor((String)data.get("herefor"));
+            }
+            if(data.has("aboutme")) {
+                setAboutme((String)data.get("aboutme"));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

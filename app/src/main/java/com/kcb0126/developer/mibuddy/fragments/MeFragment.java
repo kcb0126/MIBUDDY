@@ -1,14 +1,19 @@
 package com.kcb0126.developer.mibuddy.fragments;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.kcb0126.developer.mibuddy.MainActivity;
 import com.kcb0126.developer.mibuddy.R;
+import com.kcb0126.developer.mibuddy.models.UserModel;
 import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
 
 /**
@@ -17,7 +22,7 @@ import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
  * Use the {@link MeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MeFragment extends Fragment {
+public class MeFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -26,6 +31,19 @@ public class MeFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private MainActivity parentActivity;
+
+    private TextView tvwUsername;
+    private EditText edtUsername;
+    private EditText edtGender;
+    private EditText edtAge;
+    private EditText edtNationality;
+    private EditText edtLanguage;
+    private EditText edtOccupation;
+    private EditText edtAreas;
+    private EditText edtHerefor;
+    private EditText edtAboutme;
 
     private OnFragmentInteractionListener mListener;
 
@@ -64,7 +82,49 @@ public class MeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_me, container, false);
+        View view = inflater.inflate(R.layout.fragment_me, container, false);
+
+        // Remember main activity
+        parentActivity = (MainActivity)getActivity();
+
+        // Configure back button
+        View btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
+
+        // configure forms
+        UserModel user = UserModel.instance();
+
+        tvwUsername = (TextView)view.findViewById(R.id.tvwUsername);
+        tvwUsername.setText(user.getUsername());
+
+        edtUsername = (EditText)view.findViewById(R.id.edtUsername);
+        edtUsername.setText(user.getUsername());
+
+        edtGender = (EditText)view.findViewById(R.id.edtGender);
+        edtGender.setText(user.getGender());
+
+        edtAge = (EditText)view.findViewById(R.id.edtAge);
+        edtAge.setText(String.valueOf(user.getAge()));
+
+        edtNationality = (EditText)view.findViewById(R.id.edtNationality);
+        edtNationality.setText(user.getNationality());
+
+        edtLanguage = (EditText)view.findViewById(R.id.edtLanguage);
+        edtLanguage.setText(user.getLanguage());
+
+        edtOccupation = (EditText)view.findViewById(R.id.edtOccupation);
+        edtOccupation.setText(user.getOccupation());
+
+        edtAreas = (EditText)view.findViewById(R.id.edtAreas);
+        edtAreas.setText(user.getAreas());
+
+        edtHerefor = (EditText)view.findViewById(R.id.edtHerefor);
+        edtHerefor.setText(user.getHerefor());
+
+        edtAboutme = (EditText)view.findViewById(R.id.edtAboutme);
+        edtAboutme.setText(user.getAboutme());
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,4 +151,15 @@ public class MeFragment extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnBack:
+                parentActivity.gotoHome();
+                break;
+            default:
+
+                break;
+        }
+    }
 }

@@ -82,6 +82,14 @@ public class CommunityFragment extends Fragment {
         transaction.commit();
     }
 
+    public void showGroupFragment(String community) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        CommunityGroupFragment communityGroupFragment = CommunityGroupFragment.newInstance(community);
+        transaction.replace(R.id.communityFragment, communityGroupFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {

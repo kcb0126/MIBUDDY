@@ -33,6 +33,8 @@ public class CommunityMainFragment extends Fragment implements OnClickListener {
 
     private MainActivity parentActivity;
 
+    private CommunityFragment parentFragment;
+
     public CommunityMainFragment() {
         // Required empty public constructor
     }
@@ -70,12 +72,38 @@ public class CommunityMainFragment extends Fragment implements OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_community_main, container, false);
 
-        // Remember Main Activity
+        // Remember Main Activity and parent
         parentActivity = (MainActivity)getActivity();
+        parentFragment = (CommunityFragment)getParentFragment();
 
         // Configure back button
         View btnBack = view.findViewById(R.id.btnBack);
         btnBack.setOnClickListener(this);
+
+        // Configure community buttons
+        View btnTravel = view.findViewById(R.id.btnTravel);
+        btnTravel.setOnClickListener(this);
+
+        View btnCountries = view.findViewById(R.id.btnCountries);
+        btnCountries.setOnClickListener(this);
+
+        View btnNightLife = view.findViewById(R.id.btnNightLife);
+        btnNightLife.setOnClickListener(this);
+
+        View btnDating = view.findViewById(R.id.btnDating);
+        btnDating.setOnClickListener(this);
+
+        View btnStudies = view.findViewById(R.id.btnStudies);
+        btnStudies.setOnClickListener(this);
+
+        View btnBusiness = view.findViewById(R.id.btnBusiness);
+        btnBusiness.setOnClickListener(this);
+
+        View btnDining = view.findViewById(R.id.btnDining);
+        btnDining.setOnClickListener(this);
+
+        View btnHousing = view.findViewById(R.id.btnHousing);
+        btnHousing.setOnClickListener(this);
 
         return view;
     }
@@ -110,6 +138,39 @@ public class CommunityMainFragment extends Fragment implements OnClickListener {
             case R.id.btnBack:
                 parentActivity.gotoHome();
                 break;
+
+            case R.id.btnTravel:
+                parentFragment.showGroupFragment("Travel");
+                break;
+
+            case R.id.btnCountries:
+                parentFragment.showGroupFragment("Countries");
+                break;
+
+            case R.id.btnNightLife:
+                parentFragment.showGroupFragment("Night Life");
+                break;
+
+            case R.id.btnDating:
+                parentFragment.showGroupFragment("Dating");
+                break;
+
+            case R.id.btnStudies:
+                parentFragment.showGroupFragment("Studies");
+                break;
+
+            case R.id.btnBusiness:
+                parentFragment.showGroupFragment("Business");
+                break;
+
+            case R.id.btnDining:
+                parentFragment.showGroupFragment("Dining");
+                break;
+
+            case R.id.btnHousing:
+                parentFragment.showGroupFragment("Housing");
+                break;
+
             default:
 
                 break;

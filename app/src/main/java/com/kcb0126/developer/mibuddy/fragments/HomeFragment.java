@@ -8,12 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
 import com.kcb0126.developer.mibuddy.MainActivity;
 import com.kcb0126.developer.mibuddy.R;
 import com.kcb0126.developer.mibuddy.adapters.HomeGridAdapter;
+import com.kcb0126.developer.mibuddy.managers.PreferenceManager;
 import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
 
 /**
@@ -24,7 +26,7 @@ import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
  * Use the {@link HomeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class HomeFragment extends Fragment implements OnClickListener {
+public class HomeFragment extends Fragment implements OnClickListener, AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,6 +86,7 @@ public class HomeFragment extends Fragment implements OnClickListener {
         mHomeGridView = (GridView)view.findViewById(R.id.home_gridview);
         HomeGridAdapter adapter = new HomeGridAdapter(getActivity().getApplicationContext());
         mHomeGridView.setAdapter(adapter);
+        mHomeGridView.setOnItemClickListener(this);
 
         // Configure 2 big buttons(Talk Now, Community)
         view.findViewById(R.id.btnTalkNow).setOnClickListener(this);
@@ -129,5 +132,11 @@ public class HomeFragment extends Fragment implements OnClickListener {
                 break;
 
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        view.setSelected(true);
+        PreferenceManager.instance().putTopic(parentActivity, position);
     }
 }

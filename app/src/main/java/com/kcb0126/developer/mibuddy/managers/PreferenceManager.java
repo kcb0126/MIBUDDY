@@ -12,6 +12,8 @@ public class PreferenceManager {
     private final String KEY_PASSWORD = "password";
     private final String KEY_TOKEN = "token";
 
+    private final String KEY_TOPIC = "topic";
+
     private final String FILE_NAME = "mibuddy.pref";
 
     private static PreferenceManager mInstance = null;
@@ -47,18 +49,44 @@ public class PreferenceManager {
         return get(context, KEY_TOKEN, "");
     }
 
+
+    public int getTopic(Context context) {
+        return get(context, KEY_TOPIC, 0);
+    }
+
+    public void putTopic(Context context, int topic) {
+        put(context, KEY_TOPIC, topic);
+    }
+
     private void put(Context context, String key, String value) {
-        SharedPreferences pref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
+        SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
         editor.putString(key, value);
         editor.apply();
     }
 
+    private void put(Context context, String key, int value) {
+        SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt(key, value);
+        editor.apply();
+    }
+
     private String get(Context context, String key, String defaultValue) {
-        SharedPreferences pref = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
 
         try {
-            return pref.getString(key, defaultValue);
+            return preferences.getString(key, defaultValue);
+        } catch (Exception e) {
+            return defaultValue;
+        }
+    }
+
+    private int get(Context context, String key, int defaultValue) {
+        SharedPreferences preferences = context.getSharedPreferences(FILE_NAME, Context.MODE_PRIVATE);
+
+        try {
+            return preferences.getInt(key, defaultValue);
         } catch (Exception e) {
             return defaultValue;
         }

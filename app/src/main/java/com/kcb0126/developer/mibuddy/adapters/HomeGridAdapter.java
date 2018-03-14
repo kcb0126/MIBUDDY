@@ -66,6 +66,8 @@ public class HomeGridAdapter extends BaseAdapter {
             holder.titleTextView = cellView.findViewById(R.id.item_title);
             holder.titleTextView.setText(mTitles[position]);
 
+            cellView.setBackgroundResource(R.drawable.home_grid_item_bg);
+
             convertView = cellView;
         } else {
             holder = (ViewHolder)convertView.getTag();
