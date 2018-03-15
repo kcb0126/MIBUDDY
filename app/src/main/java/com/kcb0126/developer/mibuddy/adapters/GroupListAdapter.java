@@ -40,6 +40,10 @@ public class GroupListAdapter extends BaseAdapter {
         }
     }
 
+    public ArrayList<GroupModel> getModel() {
+        return mGroups;
+    }
+
     @Override
     public int getCount() {
         return mGroups.size();
@@ -75,6 +79,8 @@ public class GroupListAdapter extends BaseAdapter {
             holder.tvwGroup.setText(group.getName());
             holder.tvwLeader.setText(group.getLeader());
             holder.tvwMembers.setText(String.valueOf(group.getMembers()));
+
+            rowView.setBackgroundResource(R.drawable.home_grid_item_bg);
 
             convertView = rowView;
         } else {

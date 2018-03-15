@@ -31,36 +31,43 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:foreground="@android:color/darker_gray"/>
-        <ImageView
+        <ListView
+            android:id="@+id/lvwPinnedMessages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:foreground="@android:color/darker_gray"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:textColor="@android:color/black"
+            android:text="@string/pinned_message"/>
+        <ListView
+            android:id="@+id/lvwChats"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"
-            android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:src="@drawable/travel"/>
+            android:layout_weight="1"
+            android:divider="@android:color/transparent"/>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="10dp"
-                android:text="@string/create_new_group"
-                android:background="@android:color/holo_orange_light"/>
             <EditText
-                android:id="@+id/edtGroupName"
+                android:id="@+id/edtMessage"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:hint="@string/group_name"
-                android:singleLine="true" />
+                android:hint="@string/hint_message"/>
+            <Button
+                android:id="@+id/btnSend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_orange_light"
+                android:text="@string/send"/>
         </LinearLayout>
-        <ListView
-            android:id="@+id/lvwGroups"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="5" />
     </LinearLayout>
 
 </FrameLayout>

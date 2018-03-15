@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorSelected">#e6e6e6</color>
+    <color name="colorMessageFromOther">#f0f4f8</color>
+    <color name="colorMessageFromYou">#c7edfc</color>
 </resources>

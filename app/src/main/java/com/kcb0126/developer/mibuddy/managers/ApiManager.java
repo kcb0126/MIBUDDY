@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.widget.Toast;
 
+import com.kcb0126.developer.mibuddy.models.ChatModel;
 import com.kcb0126.developer.mibuddy.models.GroupModel;
 import com.kcb0126.developer.mibuddy.models.UserModel;
 
@@ -34,11 +35,15 @@ public class ApiManager {
 
     private String loginUrl = baseUrl + "login/";
     private String signupUrl = baseUrl + "signup/";
-
     private String profileUrl = baseUrl + "profile/";
 
     private String createUrl = baseUrl + "create/";
     private String groupListUrl = baseUrl + "groups/";
+    private String joinUrl = baseUrl + "join/";
+
+    private String sendUrl = baseUrl + "send/";
+    private String messageListUrl = baseUrl + "messages/";
+    private String pinUrl = baseUrl + "pin/";
 
     private static ApiManager mInstance = null;
 
@@ -53,7 +58,7 @@ public class ApiManager {
 
     }
 
-    public void callApi(final String url, final Map<String, Object> params, final CallBack callBack) {
+    private void callApi(final String url, final Map<String, Object> params, final CallBack callBack) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -209,7 +214,7 @@ public class ApiManager {
 
     }
 
-    public void groupList(Context context, String community, String keyword, final GroupListCallBack callBack) {
+    public void groupList(final Context context, String community, String keyword, final GroupListCallBack callBack) {
         HashMap<String, Object> params = new HashMap<>();
         String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
@@ -235,7 +240,125 @@ public class ApiManager {
 
             @Override
             public void fail(JSONObject data) {
+                Toast.makeText(context, "Error while getting group list." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
 
+    public void join(final Context context, int groupId, final JoinCallBack callBack) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("groupId", groupId);
+        callApi(joinUrl, params, new CallBack() {
+            @Override
+            public void success(Object data) {
+                try {
+                    boolean isLeader = ((JSONObject)data).getBoolean("isleader");
+                    callBack.success(isLeader);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    callBack.success(false);
+                }
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Cannot join to the group." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void sendMessage(final Context context, int groupId, String message, final Runnable success) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("groupId", groupId);
+        params.put("message", message);
+        callApi(sendUrl, params, new CallBack() {
+            @Override
+            public void success(Object data) {
+                success.run();
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Cannot send message." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void messageList(final Context context, int groupId, final MessageListCallBack callBack) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("groupId", groupId);
+        callApi(messageListUrl, params, new CallBack() {
+            @Override
+            public void success(Object data) {
+                JSONObject response = (JSONObject)data;
+
+                // get chatting list
+                JSONArray chatsArray = null;
+                try {
+                    chatsArray = response.getJSONArray("chatting");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    chatsArray = new JSONArray();
+                }
+                ArrayList<ChatModel> chats = new ArrayList<>();
+                for(int i = 0; i < chatsArray.length(); i++) {
+                    try {
+                        ChatModel chat = ChatModel.parseFromJSON(chatsArray.getJSONObject(i));
+                        if(chat != null) {
+                            chats.add(chat);
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // get pinned message
+                JSONArray pinnedArray = null;
+                try {
+                    pinnedArray = response.getJSONArray("pinned");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    pinnedArray = new JSONArray();
+                }
+                ArrayList<String> pinnedMessages = new ArrayList<>();
+                for(int j = 0; j < pinnedArray.length(); j++) {
+                    try {
+                        String pinned = pinnedArray.getString(j);
+                        pinnedMessages.add(pinned);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                callBack.success(chats, pinnedMessages);
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Error while getting message list." + getErrorDetail(data), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    public void pinMessage(final Context context, int messageId, final Runnable success) {
+        HashMap<String, Object> params = new HashMap<>();
+        String token = PreferenceManager.instance().getToken(context);
+        params.put("token", token);
+        params.put("messageId", messageId);
+        callApi(pinUrl, params, new CallBack() {
+            @Override
+            public void success(Object data) {
+                success.run();
+            }
+
+            @Override
+            public void fail(JSONObject data) {
+                Toast.makeText(context, "Cannot pin a message." + getErrorDetail(data), Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -247,5 +370,13 @@ public class ApiManager {
 
     public interface GroupListCallBack {
         void success(ArrayList<GroupModel> groups);
+    }
+
+    public interface JoinCallBack {
+        void success(boolean isLeader);
+    }
+
+    public interface  MessageListCallBack {
+        void success(ArrayList<ChatModel> chats, ArrayList<String> pinned);
     }
 }

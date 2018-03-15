@@ -3,32 +3,58 @@ package com.kcb0126.developer.mibuddy.fragments;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
 
+import com.kcb0126.developer.mibuddy.MainActivity;
 import com.kcb0126.developer.mibuddy.R;
+import com.kcb0126.developer.mibuddy.adapters.ChatListAdapter;
+import com.kcb0126.developer.mibuddy.adapters.PinnedListAdapter;
+import com.kcb0126.developer.mibuddy.managers.ApiManager;
+import com.kcb0126.developer.mibuddy.models.ChatModel;
+import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
+
+import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CommunityChatFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
  * Use the {@link CommunityChatFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CommunityChatFragment extends Fragment {
+public class CommunityChatFragment extends Fragment implements View.OnClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_ISLEADER = "isLeader";
+    private static final String ARG_GROUPID = "groupId";
 
     // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private boolean mIsLeader;
+    private int mGroupId;
 
     private OnFragmentInteractionListener mListener;
+
+    private MainActivity parentActivity;
+
+    private CommunityFragment parentFragment;
+
+    private ListView lvwChats;
+
+    private ListView lvwPinnedMessages;
+
+    private EditText edtMessage;
+
+    Timer chatTimer;
 
     public CommunityChatFragment() {
         // Required empty public constructor
@@ -38,16 +64,16 @@ public class CommunityChatFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param isLeader Parameter 1.
+     * @param groupId Parameter 2.
      * @return A new instance of fragment CommunityChatFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CommunityChatFragment newInstance(String param1, String param2) {
+    public static CommunityChatFragment newInstance(boolean isLeader, int groupId) {
         CommunityChatFragment fragment = new CommunityChatFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putBoolean(ARG_ISLEADER, isLeader);
+        args.putInt(ARG_GROUPID, groupId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -56,8 +82,8 @@ public class CommunityChatFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            mIsLeader = getArguments().getBoolean(ARG_ISLEADER);
+            mGroupId = getArguments().getInt(ARG_GROUPID);
         }
     }
 
@@ -65,7 +91,59 @@ public class CommunityChatFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_community_chat, container, false);
+        View view = inflater.inflate(R.layout.fragment_community_chat, container, false);
+
+        // remember parent
+        parentActivity = (MainActivity)getActivity();
+        parentFragment = (CommunityFragment) getParentFragment();
+
+        // configure back button
+        View btnBack = view.findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(this);
+
+        // configure pinned list
+        lvwPinnedMessages = (ListView)view.findViewById(R.id.lvwPinnedMessages);
+        PinnedListAdapter pinnedListAdapter = new PinnedListAdapter(parentActivity, new ArrayList<String>());
+        lvwPinnedMessages.setAdapter(pinnedListAdapter);
+
+        // configure chat listview
+        lvwChats = (ListView)view.findViewById(R.id.lvwChats);
+        ChatListAdapter adapter = new ChatListAdapter(parentActivity, new ArrayList<ChatModel>(), mIsLeader);
+        lvwChats.setAdapter(adapter);
+        chatTimer = new Timer();
+        chatTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                final TimerTask task = this;
+
+                ApiManager.instance().messageList(parentActivity, mGroupId, new ApiManager.MessageListCallBack() {
+                    @Override
+                    public void success(ArrayList<ChatModel> chats, ArrayList<String> pinned) {
+                        ChatListAdapter adapter = (ChatListAdapter) lvwChats.getAdapter();
+                        if(adapter.update(chats)) {
+                            adapter.notifyDataSetChanged();
+                            lvwChats.setSelection(adapter.getCount());
+                        }
+
+                        PinnedListAdapter pinnedListAdapter = (PinnedListAdapter) lvwPinnedMessages.getAdapter();
+                        if(pinnedListAdapter.update(pinned)) {
+                            pinnedListAdapter.notifyDataSetChanged();
+                        }
+                    }
+                });
+
+//                chatTimer.schedule(this, 5000);
+            }
+        }, 0, 5000);
+
+        // configure input form for message
+        edtMessage = (EditText)view.findViewById(R.id.edtMessage);
+
+        // configure send button
+        Button btnSend = (Button)view.findViewById(R.id.btnSend);
+        btnSend.setOnClickListener(this);
+
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -92,18 +170,26 @@ public class CommunityChatFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btnBack:
+                parentActivity.gotoCommunity();
+                break;
+
+            case R.id.btnSend:
+                String message = edtMessage.getText().toString();
+                edtMessage.setText("");
+                ApiManager.instance().sendMessage(parentActivity, mGroupId, message, new Runnable() {
+                    @Override
+                    public void run() {
+                        // show message instant
+                    }
+                });
+                break;
+            default:
+
+                break;
+        }
     }
 }

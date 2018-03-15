@@ -1,5 +1,7 @@
 package com.kcb0126.developer.mibuddy.models;
 
+import android.support.annotation.Nullable;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -62,6 +64,7 @@ public class GroupModel {
     }
 
     // parse from JSONObject
+    @Nullable
     public static GroupModel parseFromJSON(JSONObject data) {
         GroupModel model = new GroupModel();
         try {

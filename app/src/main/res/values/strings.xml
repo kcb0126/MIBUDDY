@@ -47,4 +47,7 @@
     <string name="group_table_groups">Groups</string>
     <string name="group_table_leaders">Leaders</string>
     <string name="group_table_members">Members</string>
+    <string name="join_this_group">Join this group</string>
+    <string name="pinned_message">Pinned Message</string>
+    <string name="hint_message">Type a message here</string>
 </resources>

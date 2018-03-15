@@ -1,6 +1,8 @@
 package com.kcb0126.developer.mibuddy.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -20,6 +23,7 @@ import com.kcb0126.developer.mibuddy.R;
 import com.kcb0126.developer.mibuddy.adapters.GroupListAdapter;
 import com.kcb0126.developer.mibuddy.managers.ApiManager;
 import com.kcb0126.developer.mibuddy.models.GroupModel;
+import com.kcb0126.developer.mibuddy.utils.ConfirmDialog;
 import com.kcb0126.developer.mibuddy.utils.OnFragmentInteractionListener;
 
 import java.util.ArrayList;
@@ -31,7 +35,7 @@ import java.util.List;
  * Use the {@link CommunityGroupFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CommunityGroupFragment extends Fragment implements View.OnClickListener, TextWatcher {
+public class CommunityGroupFragment extends Fragment implements View.OnClickListener, TextWatcher, AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_COMMUNITY = "community";
@@ -48,6 +52,10 @@ public class CommunityGroupFragment extends Fragment implements View.OnClickList
     private EditText edtGroupName;
 
     private ListView lvwGroups;
+
+    private Button btnJoin;
+
+    private int selectedIndex = -1;
 
     public CommunityGroupFragment() {
         // Required empty public constructor
@@ -113,6 +121,12 @@ public class CommunityGroupFragment extends Fragment implements View.OnClickList
                 lvwGroups.setAdapter(adapter);
             }
         });
+        lvwGroups.setOnItemClickListener(this);
+
+        // configure Join button
+        btnJoin = (Button)view.findViewById(R.id.btnJoin);
+        btnJoin.setOnClickListener(this);
+
 
         return view;
     }
@@ -149,19 +163,40 @@ public class CommunityGroupFragment extends Fragment implements View.OnClickList
                 break;
 
             case R.id.btnCreate:
-                String groupName = edtGroupName.getText().toString();
-                ApiManager.instance().createGroup(parentActivity, groupName, mCommunity, new Runnable() {
+                final String groupName = edtGroupName.getText().toString();
+                ConfirmDialog.showConfirmDialog(parentActivity, "Create New Group", "Are you sure you want to create new group named " + groupName + "?", new Runnable() {
                     @Override
                     public void run() {
-                        ApiManager.instance().groupList(parentActivity, mCommunity, edtGroupName.getText().toString(), new ApiManager.GroupListCallBack() {
+                        ApiManager.instance().createGroup(parentActivity, groupName, mCommunity, new Runnable() {
                             @Override
-                            public void success(ArrayList<GroupModel> groups) {
-                                GroupListAdapter adapter = (GroupListAdapter) lvwGroups.getAdapter();
-                                adapter.setModel(groups);
-                                adapter.notifyDataSetChanged();
-                                lvwGroups.setAdapter(adapter);
+                            public void run() {
+                                ApiManager.instance().groupList(parentActivity, mCommunity, edtGroupName.getText().toString(), new ApiManager.GroupListCallBack() {
+                                    @Override
+                                    public void success(ArrayList<GroupModel> groups) {
+                                        GroupListAdapter adapter = (GroupListAdapter) lvwGroups.getAdapter();
+                                        adapter.setModel(groups);
+                                        adapter.notifyDataSetChanged();
+                                        lvwGroups.setAdapter(adapter);
+                                        btnJoin.setEnabled(false);
+                                        selectedIndex = -1;
+                                    }
+                                });
                             }
                         });
+                    }
+                });
+
+                break;
+
+            case R.id.btnJoin:
+                GroupListAdapter adapter = (GroupListAdapter)lvwGroups.getAdapter();
+                ArrayList<GroupModel> groups = adapter.getModel();
+                GroupModel group = groups.get(selectedIndex);
+                final int groupId = group.getId();
+                ApiManager.instance().join(parentActivity, groupId, new ApiManager.JoinCallBack() {
+                    @Override
+                    public void success(boolean isLeader) {
+                        parentFragment.showChatFragment(isLeader, groupId);
                     }
                 });
                 break;
@@ -191,8 +226,17 @@ public class CommunityGroupFragment extends Fragment implements View.OnClickList
                 adapter.setModel(groups);
                 adapter.notifyDataSetChanged();
                 lvwGroups.setAdapter(adapter);
+                btnJoin.setEnabled(false);
+                selectedIndex = -1;
             }
         });
 
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        btnJoin.setEnabled(true);
+        view.setSelected(true);
+        selectedIndex = position;
     }
 }
