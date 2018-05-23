@@ -217,6 +217,12 @@ public class TalkNowFragment extends Fragment implements OnClickListener, OnItem
                 lvwAnswers.setOnItemClickListener(this);
 
                 break;
+
+            case R.id.lvwAnswers:
+                tvwQuestion.setText(answers.get(position));
+
+                break;
+
             default:
 
                 break;

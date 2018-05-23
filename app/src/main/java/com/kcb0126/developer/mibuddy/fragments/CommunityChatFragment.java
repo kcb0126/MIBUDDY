@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.kcb0126.developer.mibuddy.MainActivity;
 import com.kcb0126.developer.mibuddy.R;
@@ -168,6 +169,8 @@ public class CommunityChatFragment extends Fragment implements View.OnClickListe
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        chatTimer.cancel();
+        Toast.makeText(parentActivity, "Cancel", Toast.LENGTH_LONG).show();
     }
 
     @Override

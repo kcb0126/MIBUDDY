@@ -31,6 +31,7 @@ import java.util.Map;
  */
 
 public class ApiManager {
+//    private String baseUrl = "http://d4b23578.ngrok.io/";
     private String baseUrl = "http://192.168.3.25:8000/";
 
     private String loginUrl = baseUrl + "login/";

@@ -30,8 +30,6 @@
             android:layout_marginEnd="0dp"
             android:layout_marginStart="0dp"
             android:background="@android:color/white"
-            app:itemTextColor="@android:color/darker_gray"
-            app:itemIconTint="@android:color/darker_gray"
             app:menu="@menu/navigation" />
 
     </LinearLayout>
