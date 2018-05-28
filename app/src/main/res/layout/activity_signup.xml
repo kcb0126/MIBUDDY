@@ -78,7 +78,7 @@
         android:layout_height="48dp"
         android:layout_marginTop="16dp"
         android:layout_gravity="center"
-        android:text="@string/log_in"
+        android:text="@string/join_now"
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:background="@drawable/login_button_bg"/>

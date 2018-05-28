@@ -32,7 +32,7 @@ import java.util.Map;
 
 public class ApiManager {
 //    private String baseUrl = "http://d4b23578.ngrok.io/";
-    private String baseUrl = "http://192.168.3.25:8000/";
+    private String baseUrl = "http://192.168.3.90:8000/";
 
     private String loginUrl = baseUrl + "login/";
     private String signupUrl = baseUrl + "signup/";
@@ -156,14 +156,10 @@ public class ApiManager {
         });
     }
 
-    public void signup(final Context context, String email, String password, String username, String gender, int age, String nationality, final Runnable success) {
+    public void signup(final Context context, String email, String password, final Runnable success) {
         HashMap<String, Object> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
-        params.put("username", username);
-        params.put("gender", gender);
-        params.put("age", age);
-        params.put("nationality", nationality);
         callApi(signupUrl, params, new CallBack() {
             @Override
             public void success(Object data) {

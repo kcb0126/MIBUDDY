@@ -15,10 +15,6 @@ public class SignupActivity extends AppCompatActivity implements OnClickListener
     private EditText edtEmail;
     private EditText edtPassword;
     private EditText edtReenterPassword;
-    private EditText edtUsername;
-    private EditText edtGender;
-    private EditText edtAge;
-    private EditText edtNationality;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +33,6 @@ public class SignupActivity extends AppCompatActivity implements OnClickListener
         edtEmail = (EditText)findViewById(R.id.edtEmail);
         edtPassword = (EditText)findViewById(R.id.edtPassword);
         edtReenterPassword = (EditText)findViewById(R.id.edtReenterPassword);
-        edtUsername = (EditText)findViewById(R.id.edtUsername);
-        edtGender = (EditText)findViewById(R.id.edtGender);
-        edtAge = (EditText)findViewById(R.id.edtAge);
-        edtNationality = (EditText)findViewById(R.id.edtNationality);
     }
 
     @Override
@@ -54,16 +46,12 @@ public class SignupActivity extends AppCompatActivity implements OnClickListener
                 String email = edtEmail.getText().toString();
                 String password = edtPassword.getText().toString();
                 String passwordconfirm = edtReenterPassword.getText().toString();
-                String username = edtUsername.getText().toString();
-                String gender = edtGender.getText().toString();
-                int age = Integer.parseInt(edtAge.getText().toString());
-                String nationality = edtNationality.getText().toString();
 
                 if(!password.equals(passwordconfirm)) {
                     Toast.makeText(this, "Password mismatch.", Toast.LENGTH_LONG).show();
                     return;
                 }
-                ApiManager.instance().signup(this, email, password, username, gender, age, nationality, new Runnable() {
+                ApiManager.instance().signup(this, email, password, new Runnable() {
                     @Override
                     public void run() {
                         finish();
