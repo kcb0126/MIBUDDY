@@ -10,6 +10,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.kcb0126.developer.mibuddy.MainActivity;
@@ -83,10 +84,7 @@ public class HomeFragment extends Fragment implements OnClickListener, AdapterVi
         parentActivity = (MainActivity)getActivity();
 
         // Configure 9*9 grid view
-        mHomeGridView = (GridView)view.findViewById(R.id.home_gridview);
-        HomeGridAdapter adapter = new HomeGridAdapter(getActivity().getApplicationContext());
-        mHomeGridView.setAdapter(adapter);
-        mHomeGridView.setOnItemClickListener(this);
+        //... ... ...
 
         // Configure 2 big buttons(Talk Now, Community)
         view.findViewById(R.id.btnTalkNow).setOnClickListener(this);

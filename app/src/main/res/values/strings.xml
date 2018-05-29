@@ -50,4 +50,13 @@
     <string name="join_this_group">Join this group</string>
     <string name="pinned_message">Pinned Message</string>
     <string name="hint_message">Type a message here</string>
+    <string name="food">Food</string>
+    <string name="transport">Transport</string>
+    <string name="shopping">Shopping</string>
+    <string name="booking">Booking</string>
+    <string name="icons">Icons</string>
+    <string name="culture">Culture</string>
+    <string name="tips">Tips</string>
+    <string name="emergency">Emergency</string>
+    <string name="attractions">Attractions</string>
 </resources>
