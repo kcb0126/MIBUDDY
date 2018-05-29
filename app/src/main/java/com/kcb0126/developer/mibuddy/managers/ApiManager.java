@@ -1,5 +1,6 @@
 package com.kcb0126.developer.mibuddy.managers;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -59,7 +60,8 @@ public class ApiManager {
 
     }
 
-    private void callApi(final String url, final Map<String, Object> params, final CallBack callBack) {
+    private void callApi(final Context context, final String url, final Map<String, Object> params, final CallBack callBack) {
+        final ProgressDialog dialog = ProgressDialog.show(context, "", "Please wait...", true);
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -93,6 +95,7 @@ public class ApiManager {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+                            dialog.dismiss();
                             try {
                                 Object json = new JSONTokener(sb.toString()).nextValue();
                                 if(code == HttpURLConnection.HTTP_OK) {
@@ -137,7 +140,7 @@ public class ApiManager {
         HashMap<String, Object> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
-        callApi(loginUrl, params, new CallBack() {
+        callApi(context, loginUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 try {
@@ -160,7 +163,7 @@ public class ApiManager {
         HashMap<String, Object> params = new HashMap<>();
         params.put("email", email);
         params.put("password", password);
-        callApi(signupUrl, params, new CallBack() {
+        callApi(context, signupUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 success.run();
@@ -177,7 +180,7 @@ public class ApiManager {
         HashMap<String, Object> params = new HashMap<>();
         String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
-        callApi(profileUrl, params, new CallBack() {
+        callApi(context, profileUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 UserModel.instance().parseFromJSON((JSONObject) data);
@@ -197,7 +200,7 @@ public class ApiManager {
         params.put("token", token);
         params.put("name", name);
         params.put("community", community);
-        callApi(createUrl, params, new CallBack() {
+        callApi(context, createUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 success.run();
@@ -217,7 +220,7 @@ public class ApiManager {
         params.put("token", token);
         params.put("community", community);
         params.put("keyword", keyword);
-        callApi(groupListUrl, params, new CallBack() {
+        callApi(context, groupListUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 JSONArray groupsArray = (JSONArray)data;
@@ -247,7 +250,7 @@ public class ApiManager {
         String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
         params.put("groupId", groupId);
-        callApi(joinUrl, params, new CallBack() {
+        callApi(context, joinUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 try {
@@ -272,7 +275,7 @@ public class ApiManager {
         params.put("token", token);
         params.put("groupId", groupId);
         params.put("message", message);
-        callApi(sendUrl, params, new CallBack() {
+        callApi(context, sendUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 success.run();
@@ -290,7 +293,7 @@ public class ApiManager {
         String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
         params.put("groupId", groupId);
-        callApi(messageListUrl, params, new CallBack() {
+        callApi(context, messageListUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 JSONObject response = (JSONObject)data;
@@ -347,7 +350,7 @@ public class ApiManager {
         String token = PreferenceManager.instance().getToken(context);
         params.put("token", token);
         params.put("messageId", messageId);
-        callApi(pinUrl, params, new CallBack() {
+        callApi(context, pinUrl, params, new CallBack() {
             @Override
             public void success(Object data) {
                 success.run();
