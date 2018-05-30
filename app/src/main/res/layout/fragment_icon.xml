@@ -7,36 +7,39 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#f6f1ef">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="50dp"
+            android:background="@drawable/home_bg_1">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_centerInParent="true"
                 android:textSize="24sp"
-                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
                 android:text="@string/title_icons"/>
             <RelativeLayout
                 android:id="@+id/btnBack"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:background="@drawable/ic_arrow_back">
+                android:padding="12dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/talknow_btn_back"/>
             </RelativeLayout>
         </RelativeLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:foreground="@android:color/darker_gray"/>
         <GridView
             android:id="@+id/grdIcons"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="20dp"
             android:padding="1dp"
-            android:background="@drawable/border_ui"
+            android:background="@drawable/home_bg_2"
             android:gravity="center"
             android:numColumns="4"
             android:verticalSpacing="5dp"
