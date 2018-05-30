@@ -87,10 +87,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
         // Remember main activity
         parentActivity = (MainActivity)getActivity();
 
-        // Configure back button
-        View btnBack = view.findViewById(R.id.btnBack);
-        btnBack.setOnClickListener(this);
-
         // configure forms
         UserModel user = UserModel.instance();
 
@@ -154,9 +150,6 @@ public class MeFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.btnBack:
-                parentActivity.gotoHome();
-                break;
             default:
 
                 break;

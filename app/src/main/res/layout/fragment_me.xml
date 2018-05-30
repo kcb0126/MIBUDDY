@@ -5,17 +5,6 @@
     android:orientation="vertical"
     tools:context="com.kcb0126.developer.mibuddy.fragments.MeFragment">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#272727">
-        <RelativeLayout
-            android:id="@+id/btnBack"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:background="@drawable/ic_arrow_back_white">
-        </RelativeLayout>
-    </RelativeLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
